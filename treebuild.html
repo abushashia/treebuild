@@ -1,0 +1,94 @@
+<html>
+  <head>
+    <title>Tree Builder</title>
+  </head>
+
+  <body>
+
+    <script language="javascript" type="text/javascript">
+        <!-- Hide JavaScript
+
+        var myRoot = document.createElement("div");
+        myRoot.appendChild(generateAddButton());
+        myRoot.appendChild(generateDeleteButton());
+        // myRoot.appendChild(generateUpdateButton());
+        // myRoot.style.border = "dotted";
+        // myRoot.style.width = 25;
+        // myRoot.style.height = 25;
+        document.body.appendChild(myRoot);
+
+        function generateAddButton() {
+          var button = document.createElement("button");
+          button.addEventListener("click", add);
+          button.appendChild(document.createTextNode("+"));
+          return button;
+        }
+
+        function generateDeleteButton() {
+          var button = document.createElement("button");
+          button.addEventListener("click", del);
+          button.appendChild(document.createTextNode("-"));
+          return button;
+        }
+
+        function generateUpdateButton() {
+          var button = document.createElement("button");
+          button.addEventListener("click", update);
+          button.appendChild(document.createTextNode("?"));
+          return button;
+        }
+
+        function add(event) {
+          // the next step is really to unhide a form in the child space
+          // and then replace that child form with an actual node
+          var info = prompt("Enter Info");
+          if (!info || (info.trim().length == 0)) {
+            return;
+          }
+          var element = event.target.parentElement;
+          var newDiv = document.createElement("div");
+          var textNode = document.createTextNode(info);
+          // textNode.style.width = 25;
+          // textNode.style.overflow = "hidden";
+          newDiv.appendChild(textNode);//firstChild
+          newDiv.appendChild(generateAddButton());
+          newDiv.appendChild(generateDeleteButton());
+          // newDiv.appendChild(generateUpdateButton());
+          newDiv.style.marginLeft = 25;
+          // newDiv.style.width = 25;
+          // newDiv.style.height = 50;
+          // newDiv.appendChild(document.createElement("hr"));
+          // newDiv.style.border = "dotted";
+          element.appendChild(newDiv);
+        }
+
+        function del(event) {
+          if (!confirm()) {
+            return;
+          }
+          var element = event.target.parentElement;
+          element.parentElement.removeChild(element);
+        }
+
+        function update(event) {
+          var newInfo = prompt("New Info");
+          if (!newInfo) {
+            return;
+          }
+          var element = event.target.parentElement;//button's div
+          var oldInfo = element.firstChild;
+          console.log(oldInfo);
+          if (newInfo == oldInfo) {
+            return;
+          }
+          element.firstChild = document.createTextNode(newInfo);
+        }
+
+      -->
+    </script>
+    <noscript>
+      This site requires JavaScript
+    </noscript>
+
+  </body>
+</html
