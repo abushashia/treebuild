@@ -10,11 +10,8 @@
 
         var myRoot = document.createElement("div");
         myRoot.appendChild(generateAddButton());
+        myRoot.appendChild(generateUpdateButton());
         myRoot.appendChild(generateDeleteButton());
-        // myRoot.appendChild(generateUpdateButton());
-        // myRoot.style.border = "dotted";
-        // myRoot.style.width = 25;
-        // myRoot.style.height = 25;
         document.body.appendChild(myRoot);
 
         function generateAddButton() {
@@ -38,6 +35,17 @@
           return button;
         }
 
+        function generateNewDiv(info) {
+          var newDiv = document.createElement("div");
+          var textNode = document.createTextNode(info);
+          newDiv.appendChild(textNode);
+          newDiv.appendChild(generateAddButton());
+          newDiv.appendChild(generateUpdateButton());
+          newDiv.appendChild(generateDeleteButton());
+          newDiv.style.marginLeft = 25;
+          return newDiv;
+        }
+
         function add(event) {
           // the next step is really to unhide a form in the child space
           // and then replace that child form with an actual node
@@ -46,24 +54,11 @@
             return;
           }
           var element = event.target.parentElement;
-          var newDiv = document.createElement("div");
-          var textNode = document.createTextNode(info);
-          // textNode.style.width = 25;
-          // textNode.style.overflow = "hidden";
-          newDiv.appendChild(textNode);//firstChild
-          newDiv.appendChild(generateAddButton());
-          newDiv.appendChild(generateDeleteButton());
-          // newDiv.appendChild(generateUpdateButton());
-          newDiv.style.marginLeft = 25;
-          // newDiv.style.width = 25;
-          // newDiv.style.height = 50;
-          // newDiv.appendChild(document.createElement("hr"));
-          // newDiv.style.border = "dotted";
-          element.appendChild(newDiv);
+          element.appendChild(generateNewDiv(info));
         }
 
         function del(event) {
-          if (!confirm()) {
+          if (!confirm("Are you sure?")) {
             return;
           }
           var element = event.target.parentElement;
@@ -77,11 +72,11 @@
           }
           var element = event.target.parentElement;//button's div
           var oldInfo = element.firstChild;
-          console.log(oldInfo);
           if (newInfo == oldInfo) {
             return;
           }
-          element.firstChild = document.createTextNode(newInfo);
+          element.removeChild(element.firstChild);
+          element.prepend(document.createTextNode(newInfo));
         }
 
       -->
