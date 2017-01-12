@@ -1,0 +1,146 @@
+<html>
+<head>
+  <title>Scheme Tree</title>
+</head>
+<body>
+
+  <div>
+    <div><input id="1" type="textbox" size="5"/></div>
+    <div><input id="2" type="textbox" size="5"/></div>
+    <div><input id="3" type="textbox" size="5"/></div>
+    <button type="button" onclick="processInput(this);">+</button>
+  </div>
+
+  <div id="0:0:0">
+  </div>
+
+  <script type="text/javascript">
+
+    function processInput(event) {
+      var input1 = document.getElementById("1");
+      var id1 = input1.value || 0;
+      var input2 = document.getElementById("2");
+      var id2 = input2.value || 0;
+      var input3 = document.getElementById("3");
+      var id3 = input3.value || 0;
+      var newKeyArr = [id1, id2, id3];
+      if (!isValid(newKeyArr)) {
+        alert("invalid key: " + newKeyArr);
+        return;
+      }
+      var newKey = newKeyArr.join(":");
+      if (addNode(document.getElementById("0:0:0"), newKey)) {
+        input1.value = "";
+        input2.value = "";
+        input3.value = "";
+      }
+    }
+
+    function isValid(newKeyArr) {
+      var hasZero = false;
+      for (var i = 0; i < newKeyArr.length; i++) {
+        if (newKeyArr[i] == 0) {
+          hasZero = true;
+        }
+        else if (hasZero) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function addNode(element, newKey) {
+      var key = element.id;
+      if (key === undefined) {
+        throw new Error("no ID: " + element);
+      }
+      if (key == newKey) {
+        return false;
+      }
+      if (isParentOf(key, newKey)) {
+        for (var i in element.children) {
+          if (newKey == element.children[i].id) {
+            return false;
+          }
+        }
+        var newChild = document.createElement("div");
+        newChild.id = newKey;
+        newChild.style.marginLeft = 25;
+        newChild.appendChild(document.createTextNode(newKey));
+        element.appendChild(newChild);
+        iterations = 0;
+        return true;
+      }
+      if (isAncestorOf(key, newKey)) {
+        addNode(element, getParentKey(newKey));
+        for (var i = 0; i < element.children.length; i++) {
+          if (addNode(element.children[i], newKey)) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    function isParentOf(key, newKey) {
+      var depth = getDepth(key);
+      var newDepth = getDepth(newKey);
+      if ((newDepth - depth) != 1) {
+        return false;
+      }
+      return isPrefixOf(key, newKey, depth);
+    }
+
+    function isPrefixOf(key, newKey, depth) {
+      var arr = key.split(":");
+      var newArr = newKey.split(":");
+      for (var i = 0; i < depth; i++) {
+        if (arr[i] != newArr[i]) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function isAncestorOf(key, newKey) {
+      var depth = getDepth(key);
+      var newDepth = getDepth(newKey);
+      if (newDepth <= depth) {
+        return false;
+      }
+      return isPrefixOf(key, newKey, depth);
+    }
+
+    function getDepth(key) {
+      var arr = key.split(":");
+      var depth = 0;
+      for (i in arr) {
+        if (arr[i] != 0) {
+          depth++;
+        }
+      }
+      return depth;
+    }
+
+    function getParentKey(key) {
+      var depth = getDepth(key);
+      if (depth == 0) {
+        return key;
+      }
+      var parentKeyArr = [];
+      var keyArr = key.split(":");
+      for (var i = 0; i < keyArr.length; i++) {
+        if (i < (depth - 1)) {
+          parentKeyArr[i] = keyArr[i];
+        }
+        else {
+          parentKeyArr[i] = 0;
+        }
+      }
+      return parentKeyArr.join(":");
+    }
+
+
+  </script>
+</body>
+</html>
